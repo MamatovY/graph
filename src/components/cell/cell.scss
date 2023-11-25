@@ -1,0 +1,39 @@
+.cell {
+    width: 15px;
+    height: 15px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        border: 1px solid rgba(0, 0, 0, 0.50);
+    }
+
+    &-alert {
+        position: absolute;
+        left: -72.5px;
+        bottom: 130%;
+        width: 145px;
+        height: auto;
+        z-index: 10;
+        white-space: nowrap;
+        background: #000;
+        border-radius: 3px;
+        color: #fff;
+        padding: 5px 0;
+
+        span {
+            font-size: 10px;
+            color: #7C7C7C;
+        }
+
+    }
+
+    &-triangle {
+        display: block;
+        bottom: -10%;
+        left: 51%;
+        margin: 0 auto;
+        position: absolute;
+    }
+}

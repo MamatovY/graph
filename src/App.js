@@ -1,13 +1,18 @@
 import './App.scss';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cell from './components/cell';
 
 const App = () => {
   // Состояние для хранения данных контрибуций
   const [contributionData, setContributionData] = useState([]);
+  const [activeCell, setActiveCell] = useState(null)
   // Цвета для различных уровней контрибуций
-  const colors = ['#EDEDED', '#ACD5F2', '#7FA8C9', '#527BA0', '#254E77'];
-  const weeks = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+
+  const handleChangeCell = index => {
+    setActiveCell(index)
+  }
+  const weeks = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
 
   // Эффект для загрузки данных контрибуций при монтировании компонента
   useEffect(() => {
@@ -21,15 +26,6 @@ const App = () => {
         console.error('Error fetching contribution data:', error);
       });
   }, []);
-
-  // Функция для определения цвета в зависимости от количества контрибуций
-  const getColor = (count) => {
-    if (count === 0) return colors[0];
-    if (count >= 1 && count <= 9) return colors[1];
-    if (count >= 10 && count <= 19) return colors[2];
-    if (count >= 20 && count <= 29) return colors[3];
-    return colors[4];
-  };
 
   // Получение текущей даты
   const currentDate = new Date();
@@ -102,7 +98,7 @@ const App = () => {
     allDaysOfWeek.unshift(weeks[weekDay]);
   }
 
-  console.log(allDaysOfWeek);
+
 
 
   const WeekComponent = allDaysOfWeek.map((item, i) => {
@@ -131,14 +127,7 @@ const App = () => {
           {graphData.map((row, rowIndex) => (
             <div key={rowIndex} className="contribution-row">
               {row.map(({ date, count }, columnIndex) => (
-                <div
-                  key={columnIndex}
-                  className="contribution-cell"
-                  style={{
-                    backgroundColor: getColor(count),
-                  }}
-                >
-                </div>
+                <Cell key={columnIndex} handleClick={() => handleChangeCell(date)} check={activeCell === date} columnIndex={columnIndex} date={date} count={count} />
               ))}
             </div>
           ))}
