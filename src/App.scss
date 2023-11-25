@@ -11,7 +11,8 @@
   }
 
   &-graph {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(52, 1fr);
     justify-content: center;
     gap: 2px;
   }
@@ -20,5 +21,12 @@
     width: 15px;
     height: 15px;
     margin-bottom: 2px;
+  }
+
+  &-month {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    justify-content: space-between;
+    text-align: right;
   }
 }

@@ -93,14 +93,13 @@ const App = () => {
 
 
   const allDaysOfWeek = [];
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 
   for (let i = 0; i < 7; i++) {
     const day = new Date(currentDate);
     day.setDate(currentDate.getDate() - i);
     const weekDay = day.getDay()
-    allDaysOfWeek.unshift(daysOfWeek[weekDay]);
+    allDaysOfWeek.unshift(weeks[weekDay]);
   }
 
   console.log(allDaysOfWeek);
@@ -121,24 +120,29 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="contribution-graph">
-        <div className="contribution-week">
-          {WeekComponent}
+      <div className="contribution">
+        <div className="contribution-month">
+          {allMonths.map((item, i) => <div key={i}>{item}</div>)}
         </div>
-        {graphData.map((row, rowIndex) => (
-          <div key={rowIndex} className="contribution-row">
-            {row.map(({ date, count }, columnIndex) => (
-              <div
-                key={columnIndex}
-                className="contribution-cell"
-                style={{
-                  backgroundColor: getColor(count),
-                }}
-              >
-              </div>
-            ))}
+        <div className="contribution-graph">
+          <div className="contribution-week">
+            {WeekComponent}
           </div>
-        ))}
+          {graphData.map((row, rowIndex) => (
+            <div key={rowIndex} className="contribution-row">
+              {row.map(({ date, count }, columnIndex) => (
+                <div
+                  key={columnIndex}
+                  className="contribution-cell"
+                  style={{
+                    backgroundColor: getColor(count),
+                  }}
+                >
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
