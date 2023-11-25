@@ -2,6 +2,8 @@ import './App.scss';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cell from './components/cell';
+import Month from './components/month';
+import Week from './components/week';
 
 const App = () => {
   // Состояние для хранения данных контрибуций
@@ -12,7 +14,7 @@ const App = () => {
   const handleChangeCell = index => {
     setActiveCell(index)
   }
-  const weeks = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+
 
   // Эффект для загрузки данных контрибуций при монтировании компонента
   useEffect(() => {
@@ -29,7 +31,6 @@ const App = () => {
 
   // Получение текущей даты
   const currentDate = new Date();
-  const dayOfWeek = currentDate.getDay();
 
   // Получение всех дней за последние 51 неделю (7 дней * 51 неделя)
   const allDays = [];
@@ -39,30 +40,6 @@ const App = () => {
 
     allDays.unshift(day.toISOString().split('T')[0]);
   }
-
-
-  // Получение всех месяцев за последний год
-  const allMonths = [];
-  for (let i = 0; i < 12; i++) {
-    const month = new Date(currentDate);
-    month.setMonth(currentDate.getMonth() + i);
-    allMonths.push(month.toLocaleString('default', { month: 'long' }));
-  }
-
-  // Определение позиции текущего месяца в массиве
-  const currentMonthIndex = allMonths.indexOf(
-    currentDate.toLocaleString('default', { month: 'long' })
-  );
-
-  // Переставляем текущий месяц в конец массива
-  if (currentMonthIndex !== -1) {
-    allMonths.splice(currentMonthIndex, 1);
-    allMonths.push(
-      currentDate.toLocaleString('default', { month: 'long' })
-    );
-  }
-
-
 
   // Получение данных для графика с учетом текущей даты
   const generateGraphData = () => {
@@ -86,44 +63,12 @@ const App = () => {
   const graphData = generateGraphData();
 
 
-
-
-  const allDaysOfWeek = [];
-
-
-  for (let i = 0; i < 7; i++) {
-    const day = new Date(currentDate);
-    day.setDate(currentDate.getDate() - i);
-    const weekDay = day.getDay()
-    allDaysOfWeek.unshift(weeks[weekDay]);
-  }
-
-
-
-
-  const WeekComponent = allDaysOfWeek.map((item, i) => {
-    if (i % 2 !== 0) {
-      return (
-        <div key={i}>
-          {item}
-        </div>
-      );
-    }
-    return (
-      <div></div>
-    )
-  })
-
   return (
     <div className="App">
       <div className="contribution">
-        <div className="contribution-month">
-          {allMonths.map((item, i) => <div key={i}>{item}</div>)}
-        </div>
+        <Month />
         <div className="contribution-graph">
-          <div className="contribution-week">
-            {WeekComponent}
-          </div>
+          <Week />
           {graphData.map((row, rowIndex) => (
             <div key={rowIndex} className="contribution-row">
               {row.map(({ date, count }, columnIndex) => (

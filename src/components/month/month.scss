@@ -1,0 +1,7 @@
+.month {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    justify-content: space-between;
+    text-align: right;
+    color: #959494;
+}
