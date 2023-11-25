@@ -10,6 +10,21 @@ const Cell = ({ date, count, check, handleClick }) => {
         return colors[4];
     };
 
+    const dateObject = new Date(date);
+
+    // Получение дня недели и месяца в виде строк
+    const dayOfWeek = dateObject.toLocaleDateString('ru-RU', { weekday: 'long' });
+    const month = dateObject.toLocaleDateString('ru-RU', { month: 'long' });
+
+    // Получение числа дня
+    const dayOfMonth = dateObject.getDate();
+
+    // Получение года
+    const year = dateObject.getFullYear();
+
+    // Форматирование в конечную строку
+    const formattedDate = `${dayOfWeek}, ${month} ${dayOfMonth}, ${year}`;
+
     return (
         <div onClick={handleClick}
             style={{
@@ -25,7 +40,7 @@ const Cell = ({ date, count, check, handleClick }) => {
                             {count} contributions
                         </div>
                         <span>
-                            {date}
+                            {formattedDate}
                         </span>
                         <svg className='cell-triangle' xmlns="http://www.w3.org/2000/svg" width="9" height="6" viewBox="0 0 9 6" fill="none">
                             <path d="M4.5 6L0.169873 1.38009e-07L8.83013 8.95112e-07L4.5 6Z" fill="black" />
