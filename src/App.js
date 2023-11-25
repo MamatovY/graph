@@ -7,6 +7,7 @@ const App = () => {
   const [contributionData, setContributionData] = useState([]);
   // Цвета для различных уровней контрибуций
   const colors = ['#EDEDED', '#ACD5F2', '#7FA8C9', '#527BA0', '#254E77'];
+  const weeks = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 
   // Эффект для загрузки данных контрибуций при монтировании компонента
   useEffect(() => {
@@ -36,13 +37,13 @@ const App = () => {
 
   // Получение всех дней за последние 51 неделю (7 дней * 51 неделя)
   const allDays = [];
-  let weekDat = 2
   for (let i = 0; i < 7 * 51; i++) {
     const day = new Date(currentDate);
     day.setDate(currentDate.getDate() - i);
 
     allDays.unshift(day.toISOString().split('T')[0]);
   }
+
 
   // Получение всех месяцев за последний год
   const allMonths = [];
@@ -65,7 +66,6 @@ const App = () => {
     );
   }
 
-  console.log(allMonths);
 
 
   // Получение данных для графика с учетом текущей даты
@@ -90,21 +90,43 @@ const App = () => {
   const graphData = generateGraphData();
 
 
+
+
+  const allDaysOfWeek = [];
+  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(currentDate);
+    day.setDate(currentDate.getDate() - i);
+    const weekDay = day.getDay()
+    allDaysOfWeek.unshift(daysOfWeek[weekDay]);
+  }
+
+  console.log(allDaysOfWeek);
+
+
+  const WeekComponent = allDaysOfWeek.map((item, i) => {
+    if (i % 2 !== 0) {
+      return (
+        <div key={i}>
+          {item}
+        </div>
+      );
+    }
+    return (
+      <div></div>
+    )
+  })
+
   return (
     <div className="App">
       <div className="contribution-graph">
+        <div className="contribution-week">
+          {WeekComponent}
+        </div>
         {graphData.map((row, rowIndex) => (
-
           <div key={rowIndex} className="contribution-row">
-            {/* <div className="contribution-week">
-              <div>понедельник</div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div>Среда</div>
-              <div></div>
-            </div> */}
             {row.map(({ date, count }, columnIndex) => (
               <div
                 key={columnIndex}
@@ -113,9 +135,6 @@ const App = () => {
                   backgroundColor: getColor(count),
                 }}
               >
-                {date}
-                <br />
-                {count}
               </div>
             ))}
           </div>
