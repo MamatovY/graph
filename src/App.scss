@@ -7,23 +7,11 @@
 
 
   &-graph {
-    display: grid;
-    grid-template-columns: repeat(52, 1fr);
+    display: flex;
     justify-content: center;
     gap: 2px;
   }
 
-  &-cell {
-    width: 15px;
-    height: 15px;
-    margin-bottom: 2px;
-    cursor: pointer;
-    position: relative;
-
-    &:hover {
-      border: 1px solid rgba(0, 0, 0, 0.50);
-    }
-  }
 
 
 }
